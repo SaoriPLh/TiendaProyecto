@@ -65,10 +65,10 @@ public class UnidadEjecutableTienda {
 
             StringBuilder listaProductos = new StringBuilder();
 
-            for (int i = 0; i < productosDispnibles.size(); i++) {
-                Producto2 p = productosDispnibles.get(i);
-                listaProductos.append(i).append(p.getNombre()).append("- $").append(p.getPrecio()).append("\n");
-
+            for (Producto2 p : productosDispnibles) {
+                listaProductos.append("ID: ").append(p.getId())
+                        .append(" - ").append(p.getNombre())
+                        .append(" - $").append(p.getPrecio()).append("\n");
             }
 
             boolean bandera2 = true;
@@ -76,10 +76,24 @@ public class UnidadEjecutableTienda {
             while (bandera2) {
                 JOpane.imprimeSalida(listaProductos.toString(), "");
 
-                int indice = JOpane.leerInt("ingresa el numero del producto que deseas");
+                String idSeleccionado = JOpane.leerString("Ingresa el ID del producto que deseas");
+                Producto2 pSeleccionado = null;
+
+                
+                for (Producto2 p : productosDispnibles) {
+                    if (p.getId().equals(idSeleccionado)) {
+                        pSeleccionado = p;
+                        break;
+                    }
+                }
+
+                if (pSeleccionado == null) {
+                    JOptionPane.showMessageDialog(null, "Producto no encontrado con ese ID.");
+                    continue; 
+                }
+
                 int cantidad = JOpane.leerInt("cantidad");
 
-                Producto2 pSeleccionado = productosDispnibles.get(indice);
                 pedido.agregarDetalle(pSeleccionado, cantidad);
 
                 // Preguntamos si desea añadir otro ingrediente
